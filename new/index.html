@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="mint.js" type="text/javascript"></script>
+		<meta charset="utf-8" />
+		<title>UK Cabutan Bertuah</title>		
+		<link href="demo.css" rel="stylesheet" />
+		<style>
+			.crappy-plastic-part-made-in-china {
+				background-color: #222;
+				height: 3em;
+				font-size: 6em;
+				overflow: hidden;
+			}
+			.pad {
+				width: 8em;
+				margin: 0 auto;
+				height: 1.8em;
+			}
+			ul {
+				list-style: none;
+				padding: 0;
+				margin: -4.25em 0 0 0;
+				width: 1.5em;
+				height: 12em;
+				float: left;
+			}
+			li {
+				height: 2.2em;
+				width: 0.9em;
+				line-height: 2;
+				background-color: #222;
+				color: #fff;
+				text-align: center;
+				cursor: pointer;
+				font-size: 2em;
+				font-weight: bold;
+				font-family: "Helvetica Neue", Arial, sans-serif;
+			}
+				li.roundabout-in-focus {
+					cursor: default;
+				}
+			li span {
+				display: block;
+				padding-top: 0em;
+			}
+
+			#carbonads-container {
+				clear: both;
+				margin-top: 1em;
+			}
+			#carbonads-container .carbonad {
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+<body>
+<h1>Nombor Bertuah</h1>
+	<div class="crappy-plastic-part-made-in-china">
+	  <div class="pad">
+      <ul>
+	      <li></li>
+        </ul>
+	    <ul id="digit-2">
+	      <li>0</li>
+	      <li>1</li>
+	      <li>2</li>
+	      <li>3</li>
+	      <li>4</li>
+	      <li>5</li>
+	      <li>6</li>
+	      <li>7</li>
+	      <li>8</li>
+	      <li>9</li>
+        </ul>
+	    <ul id="digit-1">
+	      <li>0</li>
+	      <li>1</li>
+	      <li>2</li>
+	      <li>3</li>
+	      <li>4</li>
+	      <li>5</li>
+	      <li>6</li>
+	      <li>7</li>
+	      <li>8</li>
+	      <li>9</li>
+        </ul>
+	    <ul id="digit-0">
+	      <li>0</li>
+	      <li>1</li>
+	      <li>2</li>
+	      <li>3</li>
+	      <li>4</li>
+	      <li>5</li>
+	      <li>6</li>
+	      <li>7</li>
+	      <li>8</li>
+	      <li>9</li>
+        </ul>
+        <ul>
+	      <li></li>
+        </ul>
+      </div>
+</div>
+<div class="interact">
+    <a href="#" id="contribute">Cabutan</a>
+    <a href='#' onclick='location.reload(true); return false;'>Set Semula</a>
+</div>
+    
+<script src="jquery.js"></script>
+<script src="jquery.roundabout2.js"></script>
+<script src="jquery.roundabout-shapes2.js"></script>
+<script src="jquery.easing.js"></script>
+<script>
+var count = 0,
+	clickable = true;
+
+$(document).ready(function() {
+	$('ul').roundabout({
+		shape: "waterWheel"
+	});
+	
+	$('#contribute')
+		.click(function() {
+			if (!clickable) {
+				return false;
+			}
+			
+			$('.interact a').fadeTo(100, 0.5);
+			clickable = false;
+			
+			//count += Math.ceil(Math.random() * 600);
+			//uka=Math.floor(Math.random()* 6+0);
+			//ukb=Math.floor(Math.random()* 9+0);
+			//ukc=Math.floor(Math.random()* 9+0);
+			//count= uka + ukb + ukc;
+			count=Math.floor((Math.random()* 600)+1);
+			//count= '342';
+			applyCount(count);
+			//writeCount(count);
+			//document.write(count);
+			return false;
+		});
+	
+	$('#how-much')
+
+		.click(function() {
+			alert('The counter is currently at ' + count + '.');
+			return false;
+		});
+});
+
+function applyCount(total) {
+	var i, part, child, factor, distance,
+		count = new String(total),
+		parts = count.split("").reverse();
+		//document.write(count) + "<br>";
+		//document.write(parts);
+
+	if (total > 601) {///must be maximum number + 1 here
+		tilt();
+		return false;
+	}
+
+	//for (i = parts.length - 1; i >= 0; i--) {
+	for (i = 0; i < parts.length; i++) {
+		part = parseInt(parts[i], 10);
+
+		// get current position
+		child = $('ul#digit-' + i).data('roundabout').childInFocus;
+		factor = (part < child) ? (10 + part) - child : part - child;
+		distance = factor * 36;
+		//distance = 360;
+		
+		
+		if (i) {
+			$('ul#digit-' + i).roundabout('animateToDelta', -distance);
+		} else {
+			$('ul#digit-' + i).roundabout('animateToDelta', -distance, function() {
+				$('.interact a').fadeTo(100, 1);
+				clickable = true;
+			});
+		}
+		
+	}
+}
+/*
+function tilt() {
+	for (var i = 0; i < 7; i++) {
+		var amount = (Math.random()) ? 5 + (Math.random() * 20 - 10) : -5 - (Math.random() * 20 - 10);
+		$('ul#digit-' + i).roundabout('animateToDelta', amount).find('li').css('color', '#c00');
+	}
+}*/
+</script>
+
+</body>
+</html>
